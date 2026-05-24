@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+import com.example.MicroPostVenta.model.Cliente;
+import com.example.MicroPostVenta.model.Pedido;
+import com.example.MicroPostVenta.model.Tienda;
+
 public class VentaDTO {
 
     @Data
