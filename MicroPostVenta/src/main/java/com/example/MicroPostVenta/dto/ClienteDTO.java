@@ -1,7 +1,7 @@
 package com.example.MicroPostVenta.dto;
 
-import com.example.MicroPostVenta.model.Comuna;
-import com.example.MicroPostVenta.model.Genero;
+
+
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -29,13 +29,13 @@ public class ClienteDTO {
         private String telefono;
 
         @NotNull(message = "La comuna es obligatoria")
-        private Comuna comuna;
+        private Integer comuna;
 
         @NotBlank(message = "La dirección de envío es obligatoria")
         private String direccion_envio;
 
         @NotNull(message = "El género es obligatorio")
-        private Genero genero;
+        private Integer genero;
     }
 
     @Data
@@ -47,9 +47,9 @@ public class ClienteDTO {
         private String nombre;
         private String email;
         private String telefono;
-        private Comuna comuna;
+        private Integer comuna;
         private String direccion_envio;
-        private Genero genero;
+        private Integer genero;
     }
 
 }

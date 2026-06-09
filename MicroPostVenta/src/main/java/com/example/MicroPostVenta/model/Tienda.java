@@ -25,9 +25,9 @@ public class Tienda {
     private String direccion;
     @ManyToOne
     @JoinColumn(name="id_comuna", nullable=false)
-    private Comuna comuna;
+    private int comuna;
     @ManyToOne
     @JoinColumn(name="id_region", nullable=false)
-    private Region region;
+    private int region;
 
 }

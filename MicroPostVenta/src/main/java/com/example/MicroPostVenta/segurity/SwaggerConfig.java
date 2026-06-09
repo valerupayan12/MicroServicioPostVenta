@@ -13,9 +13,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI(){
         return new OpenAPI()
             .info(new Info()
-                    .title("API 2026 Productos")
+                    .title("API 2026 POSTventa")
                     .version("1.0")
-                    .description("Documentacion de la API para registro productos"));
+                    .description("Documentacion de la API para registro PostVenta"));
                             
     }
 

@@ -26,10 +26,10 @@ public class Cliente {
     private String telefono;
     @ManyToOne
     @JoinColumn(name="id_comuna", nullable=false)
-    private Comuna comuna;
+    private int comuna;
     private String direccion_envio;
     @ManyToOne
     @JoinColumn(name="id_genero", nullable=false)
-    private Genero genero;
+    private int genero;
 
 }

@@ -20,11 +20,11 @@ public class ClienteService {
 
 //OBTENER clientes
     public List<Cliente> getClientes() {
-        return clienteRepository.obtenerClientes();
+        return clienteRepository.findAll();
     }
 //OBTENER CLIENTE POR ID
     public Cliente getClienteById(int id_cliente) {
-        Cliente cliente = clienteRepository.buscarCliente(id_cliente);
+        Cliente cliente = clienteRepository.findById(id_cliente).orElse(null);
         if (cliente!=null) {
         return cliente;
         }else
