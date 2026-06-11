@@ -2,9 +2,7 @@ package com.example.MicroPostVenta.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id; 
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,12 +22,10 @@ public class Cliente {
     private String email;
     @Column(name="telefono", nullable=false)
     private String telefono;
-    @ManyToOne
-    @JoinColumn(name="id_comuna", nullable=false)
+    @Column(name="id_comuna", nullable=false)
     private int comuna;
     private String direccion_envio;
-    @ManyToOne
-    @JoinColumn(name="id_genero", nullable=false)
+    @Column(name="id_genero", nullable=false)
     private int genero;
 
 }
