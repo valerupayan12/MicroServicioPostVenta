@@ -2,47 +2,17 @@ package com.example.MicroPostVenta.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.MicroPostVenta.model.Cliente;
-import com.example.MicroPostVenta.repository.ClienteRepository;
 
-import jakarta.transaction.Transactional;
+public interface ClienteService {
 
+    List<Cliente> obtenerClientes();
 
-@Service
-@Transactional
-public class ClienteService {
-        @Autowired
-//SE LLAMA AL REPOSITORIO PARA PODER USAR SUS FUNCIONES
-    private ClienteRepository clienteRepository; 
+    Cliente buscarCliente(int id_cliente);
 
-//OBTENER clientes
-    public List<Cliente> getClientes() {
-        return clienteRepository.findAll();
-    }
-//OBTENER CLIENTE POR ID
-    public Cliente getClienteById(int id_cliente) {
-        Cliente cliente = clienteRepository.findById(id_cliente).orElse(null);
-        if (cliente!=null) {
-        return cliente;
-        }else
-        return new Cliente();
-    }
-//CREAR cliente
-    public Cliente saveClientes(Cliente cliente) {
-        return clienteRepository.save(cliente);
-    }
-//ACTUALIZAR cliente
-    public int updateCliente(Cliente cliente) {
-        clienteRepository.save(cliente);
-        return 1;
-    }
-//ELIMINAR cliente
-    public int deleteCliente(int id_cliente) {
-        clienteRepository.delete(getClienteById(id_cliente));
-        return 1;
-    }
+    Cliente crearCliente(Cliente cliente);
 
+    Cliente actualizarCliente(Cliente cliente);
+
+    int eliminarCliente(int id_cliente);
 }

@@ -1,4 +1,4 @@
-package com.example.MicroPostVenta.segurity;
+package com.example.MicroPostVenta.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
