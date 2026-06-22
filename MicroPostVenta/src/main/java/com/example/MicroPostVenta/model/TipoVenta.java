@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Venta {
+public class TipoVenta {
     @Id
     private int id_venta;
     @ManyToOne
@@ -33,5 +33,9 @@ public class Venta {
     private int total_neto;
     private int descuento_aplicado;
     private String tipo_documento;
+    public void setIdTipo(int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setIdTipo'");
+    }
 
 }

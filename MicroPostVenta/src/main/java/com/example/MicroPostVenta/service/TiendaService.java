@@ -15,4 +15,6 @@ public interface TiendaService {
     Tienda updateTienda(int id_tienda, Tienda tienda);
 
     int deleteTienda(int id_tienda);
+
+    void deleteByCodigo(String codigo);
 }

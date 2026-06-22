@@ -34,5 +34,17 @@ public class Pedido {
     private CuponDescuento cupondescuento;
     @Column(name="fecha_pedido", nullable=false)
     private Date fecha_pedido;
+    public void setId(int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+    }
+    public void setFechaSolicitada(java.util.Date date) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setFechaSolicitada'");
+    }
+    public void setHoraCierre(java.util.Date date) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setHoraCierre'");
+    }
 
 }

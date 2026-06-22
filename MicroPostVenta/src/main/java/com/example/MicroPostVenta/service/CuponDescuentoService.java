@@ -15,4 +15,6 @@ public interface CuponDescuentoService {
 
     int eliminarCuponDescuento(int id_cupon_descuento);
 
+    void deleteByCodigo(String codigo);
+
 }

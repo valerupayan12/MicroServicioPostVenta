@@ -7,7 +7,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin123
     ports:
-      - "3306:3306"
+      - "3307:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1","-uroot","-proot123"]
       interval: 5s
@@ -19,7 +19,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/db_ecomarket?allowPublicKeyRetrieval=true&useSSL=false"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3307/db_ecomarket?allowPublicKeyRetrieval=true&useSSL=false"
       SPRING_DATASOURCE_USERNAME: "admin"
       SPRING_DATASOURCE_PASSWORD: "admin123"
       SPRING_PROFILES_ACTIVE: "docker"
