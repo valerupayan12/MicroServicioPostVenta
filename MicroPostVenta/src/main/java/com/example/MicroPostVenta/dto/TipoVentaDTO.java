@@ -11,7 +11,7 @@ import com.example.MicroPostVenta.model.Cliente;
 import com.example.MicroPostVenta.model.Pedido;
 import com.example.MicroPostVenta.model.Tienda;
 
-public class VentaDTO {
+public class TipoVentaDTO {
 
     @Data
     @NoArgsConstructor

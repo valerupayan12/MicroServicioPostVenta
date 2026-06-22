@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MicroPostVenta.dto.ClienteDTO;
-import com.example.MicroPostVenta.model.Venta;
-import com.example.MicroPostVenta.service.VentaService;
+import com.example.MicroPostVenta.model.TipoVenta;
+import com.example.MicroPostVenta.service.TipoVentaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,20 +26,20 @@ import jakarta.validation.Valid;
 @SuppressWarnings("unused")
 @RestController
 @RequestMapping("api/v1/ventas")
-public class VentaController {
+public class TipoVentaController {
     @Autowired
-    private VentaService ventaService;
+    private TipoVentaService ventaService;
 
     @GetMapping
     @Operation(summary = "Obtener Ventas",description = "Obtener lista de ventas")
-    public List<Venta> listarVentas(){
+    public List<TipoVenta> listarVentas(){
         return ventaService.getVentas();
     }
 
      //agregar
      @PostMapping
     @Operation(summary = "Agregar Venta",description = "Agregar nueva venta")
-        public Venta agregarVenta(@Valid @RequestBody Venta venta){
+        public TipoVenta agregarVenta(@Valid @RequestBody TipoVenta venta){
             return ventaService.saveVenta(venta);
         }
     //buscar
@@ -47,10 +47,10 @@ public class VentaController {
      @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "venta registrada exitosamente",
                 content = @Content(mediaType = "application/JSON",
-                    schema = @Schema(implementation = Venta.class))),
+                    schema = @Schema(implementation = TipoVenta.class))),
             @ApiResponse(responseCode = "404",description = "venta no encontrada")
         })
-    public Venta buscarVenta(@PathVariable int id_venta){
+    public TipoVenta buscarVenta(@PathVariable int id_venta){
         return ventaService.getVenta(id_venta);
     }
     //actualizar
@@ -59,10 +59,10 @@ public class VentaController {
         @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "venta actualizada exitosamente",
                 content = @Content(mediaType = "application/JSON",
-                    schema = @Schema(implementation = Venta.class))),
+                    schema = @Schema(implementation = TipoVenta.class))),
             @ApiResponse(responseCode = "404",description = "venta no encontrada")
         })
-    public int actualizarVenta(@PathVariable int id_venta, @Valid @RequestBody Venta venta){
+    public int actualizarVenta(@PathVariable int id_venta, @Valid @RequestBody TipoVenta venta){
         return ventaService.updateVenta(venta);
     }
     //eliminar

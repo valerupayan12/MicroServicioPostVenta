@@ -15,4 +15,5 @@ public interface ClienteService {
     Cliente actualizarCliente(Cliente cliente);
 
     int eliminarCliente(int id_cliente);
+
 }

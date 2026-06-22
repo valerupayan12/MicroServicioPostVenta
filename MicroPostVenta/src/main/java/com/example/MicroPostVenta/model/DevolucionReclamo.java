@@ -23,7 +23,7 @@ public class DevolucionReclamo {
     private int id_devolucion;
     @ManyToOne
     @JoinColumn(name="id_venta", nullable=false)
-    private Venta venta;
+    private TipoVenta venta;
     @ManyToOne
     @JoinColumn(name="id_cliente", nullable=false)
     private Cliente cliente;

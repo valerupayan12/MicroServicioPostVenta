@@ -6,38 +6,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
-import com.example.MicroPostVenta.model.Venta;
-import com.example.MicroPostVenta.repository.VentaRepository;
-import com.example.MicroPostVenta.service.VentaService;
+import com.example.MicroPostVenta.model.TipoVenta;
+import com.example.MicroPostVenta.repository.TipoVentaRepository;
+import com.example.MicroPostVenta.service.TipoVentaService;
 
 @Service
 @Transactional
-public class VentaServiceimpl implements VentaService {
+public class TipoVentaServiceimpl implements TipoVentaService {
 
     @Autowired
-    private VentaRepository ventaRepository;
+    private TipoVentaRepository ventaRepository;
 
     @Override
-    public List<Venta> getVentas() {
+    public List<TipoVenta> getVentas() {
         return ventaRepository.obtenerVentas();
     }
 
     @Override
-    public Venta getVenta(int id_venta) {
-        Venta venta = ventaRepository.buscarVenta(id_venta);
+    public TipoVenta getVenta(int id_venta) {
+        TipoVenta venta = ventaRepository.buscarVenta(id_venta);
         if (venta != null) {
             return venta;
         }
-        return new Venta();
+        return new TipoVenta();
     }
 
     @Override
-    public Venta saveVenta(Venta venta) {
+    public TipoVenta saveVenta(TipoVenta venta) {
         return ventaRepository.save(venta);
     }
 
     @Override
-    public int updateVenta(Venta venta) {
+    public int updateVenta(TipoVenta venta) {
         ventaRepository.save(venta);
         return 1;
     }
