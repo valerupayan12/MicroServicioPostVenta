@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.example.MicroPostVenta.model.TipoVenta;
+import com.example.MicroPostVenta.model.Venta;
 
 //import com.example.EcoMarketSPA.model.Venta;
 
-public interface TipoVentaRepository extends JpaRepository<TipoVenta, Integer> {
+public interface VentaRepository extends JpaRepository<Venta, Integer> {
     @Query("SELECT v FROM Venta v")
-    List<TipoVenta> obtenerVentas();
+    List<Venta> obtenerVentas();
 
     @Query("SELECT v FROM Venta v WHERE v.id_venta = :id_venta")
-    TipoVenta buscarVenta(int id_venta);
+    Venta buscarVenta(int id_venta);
 
 }
