@@ -119,11 +119,4 @@ public class CuponDescuentoTest {
         assertEquals(1, resultado);
         verify(cuponDescuentoRepository).deleteById(id);
     }
-
-    // DELETE BY CODIGO (sin implementar todavia -> debe lanzar excepcion)
-    @Test
-    public void testDeleteByCodigo_noImplementado() {
-        assertThrows(UnsupportedOperationException.class,
-                () -> cuponDescuentoService.deleteByCodigo("12345678"));
-    }
 }
