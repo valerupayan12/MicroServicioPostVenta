@@ -2,14 +2,18 @@ package com.example.MicroPostVenta;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.example.MicroPostVenta.model.CuponDescuento;
 import com.example.MicroPostVenta.repository.CuponDescuentoRepository;
@@ -18,71 +22,108 @@ import com.example.MicroPostVenta.service.CuponDescuentoService;
 @SpringBootTest
 public class CuponDescuentoTest {
 
-    // Inyecta el servicio de Cliente para ser probado.
     @Autowired
     private CuponDescuentoService cuponDescuentoService;
 
-    // Crea un mock del repositorio de Cliente para simular su comportamiento.
-    @Mock
+    @MockitoBean
     private CuponDescuentoRepository cuponDescuentoRepository;
 
+    // OBTENER CUPONES
     @Test
-    public void testFindAll() {
-        // Define el comportamiento del mock: cuando se llame a findAll(), devuelve una lista con una Carrera.
-        when(cuponDescuentoRepository.findAll()).thenReturn(List.of(new CuponDescuento("1", "Juan", "juan@email.com")));
+    public void testObtenerCuponDescuentos() {
+        CuponDescuento cupon = new CuponDescuento();
+        cupon.setId_cupon_descuento(1);
+        cupon.setCodigo(12345678);
+        when(cuponDescuentoRepository.findAll()).thenReturn(List.of(cupon));
 
-        // Llama al método findAll() del servicio.
-          <CuponDescuento> Object cupones = cuponDescuentoService.findAll();
+        List<CuponDescuento> cupones = cuponDescuentoService.obtenerCuponDescuentos();
 
-        // Verifica que la lista devuelta no sea nula y contenga exactamente una Carrera.
         assertNotNull(cupones);
         assertEquals(1, cupones.size());
     }
 
+    // BUSCAR CUPON
     @Test
-    public void testFindByCodigo() {
-        String codigo = "1";
-        CuponDescuento cupon = new CuponDescuento(codigo, "Juan", "juan@email.com");
+    public void testBuscarCuponDescuento() {
+        int id = 1;
+        CuponDescuento cupon = new CuponDescuento();
+        cupon.setId_cupon_descuento(id);
+        cupon.setCodigo(12345678);
+        when(cuponDescuentoRepository.findById(id)).thenReturn(Optional.of(cupon));
 
-        // Define el comportamiento del mock: cuando se llame a findById() con "1", devuelve una Carrera opcional.
-        when(cuponDescuentoRepository.findAll()).thenReturn(Optional.of(cupon));
+        CuponDescuento encontrado = cuponDescuentoService.buscarCuponDescuento(id);
 
-        // Llama al método findByCodigo() del servicio.
-        CuponDescuento found = cuponDescuentoService.findByCodigo(codigo);
-
-        // Verifica que la Carrera devuelta no sea nula y que su código coincida con el código esperado.
-        assertNotNull(found);
-        assertEquals(codigo, found.getCodigo());
+        assertNotNull(encontrado);
+        assertEquals(12345678, encontrado.getCodigo());
     }
 
+    // BUSCAR CUPON no existe
     @Test
-    public void testSave() {
-        CuponDescuento cupon = new CuponDescuento("1", "Juan", "juan@email.com");
+    public void testBuscarCuponDescuento_noExiste() {
+        int id = 99;
+        when(cuponDescuentoRepository.findById(id)).thenReturn(Optional.empty());
 
-        // Define el comportamiento del mock: cuando se llame a save(), devuelve la Carrera proporcionada.
-        when(cuponDescuentoRepository.saveAll(List.of(cupon))).thenReturn(List.of(cupon));
+        CuponDescuento resultado = cuponDescuentoService.buscarCuponDescuento(id);
 
-        // Llama al método save() del servicio.
-        CuponDescuento saved = cuponDescuentoService.save(cupon );
-
-        // Verifica que la Carrera guardada no sea nula y que su nombre coincida con el nombre esperado.
-        assertNotNull(saved);
-        assertEquals("Juan", saved.getNombre());
+        assertNotNull(resultado); // nunca null, por el orElse(new CuponDescuento())
+        assertEquals(0, resultado.getId_cupon_descuento());
     }
 
+    // CREAR CUPON
     @Test
-    public void testDeleteByCodigo() {
-        String codigo = "1";
+    public void testCrearCuponDescuento() {
+        CuponDescuento cupon = new CuponDescuento();
+        cupon.setCodigo(11112222);
+        when(cuponDescuentoRepository.save(cupon)).thenReturn(cupon);
 
-        // Define el comportamiento del mock: cuando se llame a deleteById(), no hace nada.
-        doNothing().when(cuponDescuentoRepository).delete (codigo);
+        CuponDescuento creado = cuponDescuentoService.crearCuponDescuento(cupon);
 
-        // Llama al método deleteByCodigo() del servicio.
-        cuponDescuentoService.deleteByCodigo(codigo);
-
-            // Verifica que el método deleteById() del repositorio se haya llamado exactamente una vez con el código proporcionado.
-        verify(cuponDescuentoRepository, times(1)).deleteById(codigo);
+        assertNotNull(creado);
+        assertEquals(11112222, creado.getCodigo());
     }
 
+    // ACTUALIZAR CUPON
+    @Test
+    public void testActualizarCuponDescuento() {
+        CuponDescuento cupon = new CuponDescuento();
+        cupon.setId_cupon_descuento(1);
+        cupon.setDescuento_pct(20);
+        when(cuponDescuentoRepository.save(cupon)).thenReturn(cupon);
 
+        CuponDescuento actualizado = cuponDescuentoService.actualizarCuponDescuento(cupon);
+
+        assertNotNull(actualizado);
+        assertEquals(20, actualizado.getDescuento_pct());
+    }
+
+    // ELIMINAR CUPON (no existe)
+    @Test
+    public void testEliminarCuponDescuento() {
+        int id = 1;
+        when(cuponDescuentoRepository.existsById(id)).thenReturn(false);
+
+        int resultado = cuponDescuentoService.eliminarCuponDescuento(id);
+
+        assertEquals(0, resultado);
+        verify(cuponDescuentoRepository, never()).deleteById(id);
+    }
+
+    // ELIMINAR CUPON (existe)
+    @Test
+    public void testEliminarCuponDescuento_existe() {
+        int id = 1;
+        when(cuponDescuentoRepository.existsById(id)).thenReturn(true);
+
+        int resultado = cuponDescuentoService.eliminarCuponDescuento(id);
+
+        assertEquals(1, resultado);
+        verify(cuponDescuentoRepository).deleteById(id);
+    }
+
+    // DELETE BY CODIGO (sin implementar todavia -> debe lanzar excepcion)
+    @Test
+    public void testDeleteByCodigo_noImplementado() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> cuponDescuentoService.deleteByCodigo("12345678"));
+    }
 }

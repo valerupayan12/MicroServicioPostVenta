@@ -12,6 +12,7 @@ import com.example.MicroPostVenta.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-    @Query("SELECT c FROM Cliente c WHERE c.genero.id_genero = :id_genero")
+    @Query("SELECT c FROM Cliente c WHERE c.genero = :id_genero")
     List<Cliente> findClientesByGeneroId(@Param("id_genero") Integer id_genero);
+
 }
