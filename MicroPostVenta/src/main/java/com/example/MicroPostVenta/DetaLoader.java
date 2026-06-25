@@ -50,12 +50,9 @@ public class DetaLoader implements CommandLineRunner {
         // Generar tipos de venta
         for (int i = 0; i < 3; i++) {
             Venta tipoVenta = new Venta();
-            // Si idTipo es autogenerado (@GeneratedValue), no lo asignes manualmente:
-            // tipoVenta.setIdTipo(i + 1);
-            tipoVenta.setNombre(faker.book().genre());
             tipoVentaRepository.save(tipoVenta);
         }
-
+        
         // Generar clientes
         for (int i = 0; i < 5; i++) {
             Cliente cliente = new Cliente();
@@ -77,11 +74,9 @@ public class DetaLoader implements CommandLineRunner {
             cuponDescuentoRepository.save(cupon);
         }
 
-        // Generar tiendas (faltaba este bloque, por eso fallaba más abajo)
         for (int i = 0; i < 5; i++) {
             Tienda tienda = new Tienda();
             tienda.setNombre(faker.company().name());
-            // agrega aquí otros campos de Tienda según tu modelo (dirección, etc.)
             tiendaRepository.save(tienda);
         }
 
@@ -90,8 +85,6 @@ public class DetaLoader implements CommandLineRunner {
         // Generar pedidos
         for (int i = 0; i < 20; i++) {
             Pedido pedido = new Pedido();
-            // Si id es autogenerado, no lo asignes manualmente:
-            // pedido.setId(i + 1);
             pedido.setCliente(clientes.get(random.nextInt(clientes.size())));
             pedido.setTienda(tiendas.get(random.nextInt(tiendas.size())));
             pedido.setFechaSolicitada(new Date());
