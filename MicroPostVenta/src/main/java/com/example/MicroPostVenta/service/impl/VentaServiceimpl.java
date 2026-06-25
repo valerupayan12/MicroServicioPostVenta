@@ -12,7 +12,7 @@ import com.example.MicroPostVenta.service.VentaService;
 
 @Service
 @Transactional
-public class TipoVentaServiceimpl implements VentaService {
+public class VentaServiceimpl implements VentaService {
 
     @Autowired
     private VentaRepository ventaRepository;
