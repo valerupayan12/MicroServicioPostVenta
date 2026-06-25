@@ -33,9 +33,4 @@ public class Venta {
     private int total_neto;
     private int descuento_aplicado;
     private String tipo_documento;
-    public void setIdTipo(int i) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setIdTipo'");
-    }
-
 }
