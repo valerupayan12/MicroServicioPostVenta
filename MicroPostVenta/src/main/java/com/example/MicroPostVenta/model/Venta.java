@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class TipoVenta {
+public class Venta {
     @Id
     private int id_venta;
     @ManyToOne

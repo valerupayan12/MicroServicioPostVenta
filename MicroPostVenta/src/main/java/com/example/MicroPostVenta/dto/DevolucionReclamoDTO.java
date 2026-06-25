@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import com.example.MicroPostVenta.model.Cliente;
 import com.example.MicroPostVenta.model.Producto;
-import com.example.MicroPostVenta.model.TipoVenta;
+import com.example.MicroPostVenta.model.Venta;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -45,7 +45,7 @@ public class DevolucionReclamoDTO {
     @AllArgsConstructor
     public static class Response {
     private int id_devolucion;
-    private TipoVenta venta;
+    private Venta venta;
     private Cliente cliente;
     private Producto producto;
     private String motivo;

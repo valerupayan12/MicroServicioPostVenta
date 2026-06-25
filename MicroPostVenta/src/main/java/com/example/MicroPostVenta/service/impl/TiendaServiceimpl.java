@@ -54,4 +54,10 @@ public class TiendaServiceimpl implements TiendaService {
         }
         return 0;
     }
+
+    @Override
+    public void deleteByCodigo(String codigo) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteByCodigo'");
+    }
 }
