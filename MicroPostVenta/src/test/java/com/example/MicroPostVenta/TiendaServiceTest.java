@@ -2,87 +2,147 @@ package com.example.MicroPostVenta;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import com.example.MicroPostVenta.model.Tienda;
 import com.example.MicroPostVenta.repository.TiendaRepository;
 import com.example.MicroPostVenta.service.TiendaService;
-
-import antlr.collections.List;
 
 @SpringBootTest
 public class TiendaServiceTest {
 
-    // Inyecta el servicio de Carrera para ser probado.
     @Autowired
     private TiendaService tiendaService;
 
-    // Crea un mock del repositorio de Carrera para simular su comportamiento.
-    @Mock
+    @MockitoBean
     private TiendaRepository tiendaRepository;
 
+    // OBTENER TIENDAS
     @Test
-    public void testFindAll() {
-        // Define el comportamiento del mock: cuando se llame a findAll(), devuelve una lista con una Carrera.
-        when(tiendaRepository.findAll()).thenReturn(List.of(new Tienda("1", "Tienda 1")));
+    public void testGetTiendas() {
+        Tienda tienda = new Tienda();
+        tienda.setId_tienda(1);
+        tienda.setDireccion("Av. Siempre Viva 123");
+        when(tiendaRepository.obtenerTienda()).thenReturn(List.of(tienda));
 
-        // Llama al método findAll() del servicio.
-        List<Tienda> tiendas = tiendaService.findAll();
+        List<Tienda> tiendas = tiendaService.getTiendas();
 
-        // Verifica que la lista devuelta no sea nula y contenga exactamente una Carrera.
         assertNotNull(tiendas);
         assertEquals(1, tiendas.size());
     }
 
+    // BUSCAR TIENDA (existe)
     @Test
-    public void testFindByCodigo() {
-        String codigo = "1";
-        Tienda tienda = new Tienda(codigo, "Tienda 1    ");
+    public void testGetTienda() {
+        int id = 1;
+        Tienda tienda = new Tienda();
+        tienda.setId_tienda(id);
+        tienda.setDireccion("Av. Siempre Viva 123");
+        when(tiendaRepository.buscarTienda(id)).thenReturn(tienda);
 
-        // Define el comportamiento del mock: cuando se llame a findById() con "1", devuelve una Carrera opcional.
-        when(tiendaRepository.findById(codigo)).thenReturn(Optional.of(tienda));
+        Tienda encontrada = tiendaService.getTienda(id);
 
-        // Llama al método findByCodigo() del servicio.
-        Tienda found = tiendaService.findByCodigo(codigo);
-
-        // Verifica que la Carrera devuelta no sea nula y que su código coincida con el código esperado.
-        assertNotNull(found);
-        assertEquals(codigo, found.getCodigo());
+        assertNotNull(encontrada);
+        assertEquals("Av. Siempre Viva 123", encontrada.getDireccion());
     }
 
+    // BUSCAR TIENDA (no existe)
     @Test
-    public void testSave() {
-        Tienda tienda = new Tienda("1", "Tienda 1    ");
+    public void testGetTienda_noExiste() {
+        int id = 99;
+        when(tiendaRepository.buscarTienda(id)).thenReturn(null);
 
-        // Define el comportamiento del mock: cuando se llame a save(), devuelve la Carrera proporcionada.
-        when(tiendaRepository.saveAll(List.of(tienda))).thenReturn(List.of(tienda));
+        Tienda resultado = tiendaService.getTienda(id);
 
-        // Llama al método save() del servicio.
-        Tienda saved = tiendaService.save(tienda);
-
-        // Verifica que la Carrera guardada no sea nula y que su nombre coincida con el nombre esperado.
-        assertNotNull(saved);
-        assertEquals("Tienda 1    ", saved.getNombre());
+        assertNotNull(resultado); // nunca null, por el "return new Tienda()"
+        assertEquals(0, resultado.getId_tienda());
     }
 
+    // CREAR TIENDA
     @Test
-    public void testDeleteByCodigo() {
-        String codigo = "1";
+    public void testSaveTienda() {
+        Tienda tienda = new Tienda();
+        tienda.setDireccion("Av. Siempre Viva 123");
+        when(tiendaRepository.save(tienda)).thenReturn(tienda);
 
-        // Define el comportamiento del mock: cuando se llame a deleteById(), no hace nada.
-        doNothing().when(tiendaRepository).deleteById(codigo);
+        Tienda creada = tiendaService.saveTienda(tienda);
 
-        // Llama al método deleteByCodigo() del servicio.
-        tiendaService.deleteByCodigo(codigo);
-
-        // Verifica que el método deleteById() del repositorio se haya llamado exactamente una vez con el código proporcionado.
-        verify(tiendaRepository, times(1)).delete(codigo);
+        assertNotNull(creada);
+        assertEquals("Av. Siempre Viva 123", creada.getDireccion());
     }
 
+    // ACTUALIZAR TIENDA (existe)
+    @Test
+    public void testUpdateTienda_existe() {
+        int id = 1;
+        Tienda tiendaExistente = new Tienda();
+        tiendaExistente.setId_tienda(id);
+        when(tiendaRepository.buscarTienda(id)).thenReturn(tiendaExistente);
+
+        Tienda tiendaNueva = new Tienda();
+        tiendaNueva.setDireccion("Direccion Actualizada");
+        when(tiendaRepository.save(tiendaNueva)).thenReturn(tiendaNueva);
+
+        Tienda actualizada = tiendaService.updateTienda(id, tiendaNueva);
+
+        assertNotNull(actualizada);
+        assertEquals("Direccion Actualizada", actualizada.getDireccion());
+        assertEquals(id, tiendaNueva.getId_tienda()); // el service fuerza el id
+    }
+
+    // ACTUALIZAR TIENDA (no existe)
+    @Test
+    public void testUpdateTienda_noExiste() {
+        int id = 99;
+        when(tiendaRepository.buscarTienda(id)).thenReturn(null);
+
+        Tienda tiendaNueva = new Tienda();
+        tiendaNueva.setDireccion("Direccion Actualizada");
+
+        Tienda resultado = tiendaService.updateTienda(id, tiendaNueva);
+
+        assertNull(resultado);
+    }
+
+    // ELIMINAR TIENDA (no existe)
+    @Test
+    public void testDeleteTienda() {
+        int id = 1;
+        when(tiendaRepository.existsById(id)).thenReturn(false);
+
+        int resultado = tiendaService.deleteTienda(id);
+
+        assertEquals(0, resultado);
+        verify(tiendaRepository, never()).deleteById(id);
+    }
+
+    // ELIMINAR TIENDA (existe)
+    @Test
+    public void testDeleteTienda_existe() {
+        int id = 1;
+        when(tiendaRepository.existsById(id)).thenReturn(true);
+
+        int resultado = tiendaService.deleteTienda(id);
+
+        assertEquals(1, resultado);
+        verify(tiendaRepository).deleteById(id);
+    }
+
+    // DELETE BY CODIGO (sin implementar todavia -> debe lanzar excepcion)
+    @Test
+    public void testDeleteByCodigo_noImplementado() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> tiendaService.deleteByCodigo("ABC123"));
+    }
 }
