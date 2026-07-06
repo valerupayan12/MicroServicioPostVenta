@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name="id_cupon", nullable=false)
     private CuponDescuento cupondescuento;
+    @NotNull(message = "La fecha de pedido no puede estar vacía")
     @Column(name="fecha_pedido", nullable=false)
     private Date fecha_pedido;
 }

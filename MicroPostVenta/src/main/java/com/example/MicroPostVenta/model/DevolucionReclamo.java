@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,10 +32,12 @@ public class DevolucionReclamo {
     @ManyToOne
     @JoinColumn(name="id_producto", nullable=false)
     private Producto producto;
+    @NotBlank(message = "El motivo no puede estar vacío")
     @Column(name="motivo", nullable=false)
     private String motivo;
     @Column(name="estado", nullable=false)
     private boolean estado;
+    @NotNull(message = "La fecha no puede estar vacía")
     @Column(name="fecha", nullable=false)
     private Date fecha;
 
